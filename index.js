@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const { default: mongoose } = require('mongoose');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const MovieRouter = require('./routes/movie'); 
 
 dotenv.config()
 const UserRouter = require('./routes/user');
@@ -10,6 +11,7 @@ const UserRouter = require('./routes/user');
 const app = express()
  app.use(express.json())
  app.use('/api', UserRouter)
+ app.use('/api', MovieRouter); 
  app.use(cors({
     origin: ["http://localhost:7000"],
     credentials: true,
