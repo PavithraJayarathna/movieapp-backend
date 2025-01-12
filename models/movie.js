@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const MovieSchema = new mongoose.Schema({
+    tmdbId: { type: Number, required: true, unique: true },
     title: {type: String, required: true},
     description: {type: String, required: true},
     genre: {type: [String], required: true},

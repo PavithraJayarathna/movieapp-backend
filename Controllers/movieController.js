@@ -1,5 +1,6 @@
 const axios = require('axios');
 const MovieModel = require('../models/movie');
+const mongoose = require('mongoose');
 
 
 const fetchAndSaveMovie = async (req, res) => {
@@ -25,7 +26,15 @@ const fetchAndSaveMovie = async (req, res) => {
         
         const directorName = director ? director.name : 'Unknown';
         
+        const tmdbId = Number(movieData.id);
+
+        
+        if (isNaN(tmdbId)) {
+            return res.status(400).json({ message: 'Invalid TMDB movie ID format' });
+        }
+
         const movie = new MovieModel({
+            tmdbId: tmdbId, 
             title: movieData.title,
             description: movieData.overview,
             genre: movieData.genres.map(genre => genre.name),
@@ -67,7 +76,16 @@ const getMovies = async (req, res) => {
 const getMovieById = async (req, res) => {
     try {
         const { id } = req.params; 
-        const movie = await MovieModel.findById(id); 
+        
+        
+        const movieId = Number(id);
+
+        if (isNaN(movieId)) {
+            return res.status(400).json({ message: 'Invalid movie ID format' });
+        }
+
+      
+        const movie = await MovieModel.findOne({ tmdbId: movieId });
 
         if (!movie) {
             return res.status(404).json({ message: 'Movie not found.' });
@@ -79,6 +97,5 @@ const getMovieById = async (req, res) => {
         return res.status(500).json({ message: 'Server error', error: error.message });
     }
 };
-
 
 module.exports = { fetchAndSaveMovie, getMovies,getMovieById };
