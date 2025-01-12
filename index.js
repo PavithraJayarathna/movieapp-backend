@@ -19,7 +19,7 @@ const app = express()
  app.use(cookieParser())
 
 
-mongoose.connect('mongodb://127.0.0.1:27017/movieapp')
+mongoose.connect('mongodb+srv://madumalijayarathna09:Chanmadu@cluster0.ekd0ilq.mongodb.net/movieapp?retryWrites=true&w=majority&appName=Cluster0')
 
 app.listen(process.env.PORT, () =>{
     console.log("Server is Running ON ",process.env.PORT);
